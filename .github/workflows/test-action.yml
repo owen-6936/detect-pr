@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Extract branch name
         id: extract-branch
-        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_OUTPUT
+        run: echo "branch=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
 
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -41,5 +41,5 @@ jobs:
         id: pr-check
         uses: ./
         with:
-          branch: ${{needs.get-branch-and-setup.outputs.branch}}
+          branch: ${{ needs.get-branch-and-setup.outputs.branch }}
           github-token: ${{ secrets.GITHUB_TOKEN }}

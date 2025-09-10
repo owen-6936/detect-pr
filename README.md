@@ -39,10 +39,11 @@ jobs:
         
       - name: Create Pull Request
         if: ${{ steps.pr-check.outputs.skip_pr_creation == 'false' }}
-        run: |
-          gh pr create --title "Feature: ${{ github.ref_name }}" --body "Adds new feature branch."
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: owen-6936/create-pr@v1.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{github.ref_name}}
+          base-branch: main
 ````
 
 -----

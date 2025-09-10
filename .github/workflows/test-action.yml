@@ -1,0 +1,43 @@
+name: Test Detect Existing PR"
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+
+jobs:
+  get-branch-and-setup:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.extract-branch.outputs.branch }}
+    steps:
+      - name: Extract branch name
+        id: extract-branch
+        run: echo "branch=${GITHUB_HEAD_REF}" >> $GITHUB_OUTPUT
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Github CLI
+        run: sudo apt-get install gh
+
+      - name: Authenticate Github CLI
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+  detect-pr:
+    runs-on: ubuntu-latest
+    needs: [get-branch-and-setup]
+    steps:
+      - name: check for existing PR
+        id: pr-check
+        uses: ./
+        with:
+          branch: ${{needs.get-branch-and-setup.outputs.branch}}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

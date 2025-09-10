@@ -1,0 +1,41 @@
+name: "Detect Existing PR"
+description: "This workflow is designed to check for existing pull requests. It runs a job that scans for any open pull requests that may already exist for the current branch, helping to prevent the creation of duplicate PRs."
+author: "owen-6936"
+branding:
+  icon: "git-pull-request"
+  color: "green"
+
+inputs:
+  github-token:
+    description: "Github token with pull-requests: read permissions to check for pull requests."
+  branch:
+    required: true
+    description: "The current branch the pr is been called"
+
+outputs:
+  skip_pr_creation:
+    description: "Is true if a pull request already exists"
+    value: ${{ steps.pr-check.outputs.skip_pr_creation }}
+
+  pr_number:
+    description: "The pull request number, if one exists"
+    value: ${{ steps.pr-check.outputs.pr_number }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check for existing PR
+      id: pr-check
+      shell: bash
+      run: |
+        existing_pr=$(gh pr list --head ${{ inputs.branch }} --json number --jq '.[0].number')
+        if [ -n "$existing_pr" ]; then
+          echo "There is already an existing PR (#$existing_pr) for branch ${{ inputs.branch }}"
+          echo "pr_number="$existing_pr"" >> $GITHUB_OUTPUT
+          echo "skip_pr_creation=true" >> $GITHUB_OUTPUT
+        else
+          echo "There is no existing PR for branch ${{ inputs.branch }}."
+          echo "skip_pr_creation=false" >> $GITHUB_OUTPUT
+        fi
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}

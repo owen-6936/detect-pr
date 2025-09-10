@@ -4,7 +4,7 @@ This GitHub Action checks a repository for an existing open pull request from a 
 
 [![GitHub Marketplace](https://img.shields.io/badge/GitHub-Marketplace-blue)](https://github.com/marketplace/actions/detect-existing-pr)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/owen-6936/detect-pr?style=for-the-badge)](https://github.com/owen-6936/detect-pr/releases)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/owen-6936/detect-pr/test-action.yml?branch=main&style=for-the-badge)](https://github.com/owen-6936/detect-pr/actions/workflows/test-action.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/owen-6936/detect-pr/test-action.yml?branch=develop&style=for-the-badge)](https://github.com/owen-6936/detect-pr/actions/workflows/test-action.yml?query=branch%3Adevelop)
 [![License](https://img.shields.io/github/license/owen-6936/detect-pr?style=for-the-badge)](https://github.com/owen-6936/detect-pr/blob/main/LICENSE)
 
 ## Usage
